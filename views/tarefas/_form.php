@@ -9,7 +9,7 @@ use yii\helpers\Url;
 <div class="tarefas-form">
 
     <?php $form = ActiveForm::begin([
-    	'id' => $model->formName()
+    	'id' => $model->formName(),
     ]); ?>
 
 
@@ -31,12 +31,12 @@ use yii\helpers\Url;
 $script = <<< JS
 
     // Função para enviar o formulário via ajax
-	$('form#{$model->formName()}').on('beforeSubmit', function(e) {
+    $("body").on("beforeSubmit", "form#{$model->formName()}", function () {
 		
         var \$form = $(this);
 
         $.ajax({
-            url: baseUrl,
+            url: \$form.attr("action"),
             data: \$form.serialize(),
             type: "POST",
             dataType: "json",
@@ -46,8 +46,8 @@ $script = <<< JS
                 if(result == 1){
                     
                     // caso registro seja criado, limpa o formulário e carrega tabela com novo registro
-                    $(\$form).trigger('reset');
-                    $.pjax.reload({container: '#tarefasGrid'});
+                    $('.modal').modal('toggle');
+                    location.reload();
 
                 } else {
                     console.log('erro ao salvar');
@@ -61,9 +61,4 @@ $script = <<< JS
 	});
 
 JS;
-
-// Passa url base destino verificando se página é de criação ou edição
-$model->isNewRecord ? 
-    $this->registerJs('var baseUrl = \'' . Url::toRoute('/tarefas/create') . '\'') :
-    $this->registerJs('var baseUrl = \'' . Url::toRoute(['/tarefas/update', 'id' => $model->id]) . '\'');
 $this->registerJS($script);

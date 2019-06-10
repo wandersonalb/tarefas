@@ -20,12 +20,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <!-- Botão para carregar modal com form de criação de novo registro -->
-        <?= Html::button('Criar Tarefa', ['value' => Url::to('index.php?r=tarefas/create'), 'class' => 'btn btn-success', 'id' => 'modalButton']) ?>
+        <?= Html::button('Criar Tarefa', ['value' => Url::to('index.php?r=tarefas/create'), 'class' => 'btn btn-success modalButton']) ?>
     </p>
-
-
-    <!-- Pjax é responsável por carregar dados na tabela GridView via ajax -->
-    <?php Pjax::begin(['id' => 'tarefasGrid']) ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -70,7 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             null,
                             [
                                 'title' => 'Visualizar Tarefa',
-                                'id' => 'modalViewButton',
+                                'class' => 'modalButton',
                                 'value' => Url::to(['tarefas/view', 'id' => $model->id])
                             ]
 
@@ -82,7 +78,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             null,
                             [
                                 'title' => 'Visualizar Tarefa',
-                                'class' => 'modalEditButton',
+                                'class' => 'modalButton',
                                 'value' => Url::to(['tarefas/update', 'id' => $model->id])
                             ]
 
@@ -92,40 +88,15 @@ $this->params['breadcrumbs'][] = $this->title;
             ]
         ],
     ]); ?>
-    <?php Pjax::end(); ?>
 
-    <!-- Modal para criar nova tarefa -->
-    <?=
+    <!-- Modal para criar/visualizar/editar tarefa -->
+    <?php
         Modal::begin([
             'header' => '<h4>Tarefas</h4>',
-            'id' => 'modalNovaTarefa',
+            'class' => 'modal',
             'size' => 'modal-lg'
         ]);
     ?>
-    <div id='modalNovaTarefaContent'></div>
-    <?=
-        Modal::end();
-    ?>
-
-    <!-- Modal para visualizar tarefa -->
-    <?=
-        Modal::begin([
-            'header' => '<h4>Visualiza Tarefa</h4>',
-            'id' => 'modalViewTarefa',
-            'size' => 'modal-lg'
-        ]); 
-    ?>
-    <div id='modalViewTarefaContent'></div>
-    <?= Modal::end(); ?>
-
-    <!-- Modal para editar tarefa -->
-    <?= Modal::begin([
-            'header' => '<h4>Edita Tarefa</h4>',
-            'id' => 'modalEditTarefa',
-            'size' => 'modal-lg'
-        ]);
-    ?>
-    <div id='modalEditTarefaContent'></div>
-    <?= Modal::end(); ?>
-
+    <div class='modalContent'></div>
+    <?php Modal::end(); ?>
 </div>
