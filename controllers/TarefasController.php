@@ -38,6 +38,11 @@ class TarefasController extends Controller
         $searchModel = new TarefasSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        // Veririca se há o atributo data na busca para conversão
+        if ($searchModel->data != null) {
+            $searchModel->data = Yii::$app->util->converteData($searchModel->data, 'date');
+        }
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -52,7 +57,7 @@ class TarefasController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        return $this->renderAjax('view', [
             'model' => $this->findModel($id),
         ]);
     }
@@ -66,11 +71,16 @@ class TarefasController extends Controller
     {
         $model = new Tarefas();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            // Converte data para formato do banco antes de salvar
+            $model->data = Yii::$app->util->converteDataSQL($model->data . ' 00:00:00', 'datetime');
+            if($model->save())
+                return 1;
+            else
+                return 2;
         }
 
-        return $this->render('create', [
+        return $this->renderAjax('create', [
             'model' => $model,
         ]);
     }
@@ -86,11 +96,17 @@ class TarefasController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            // Converte data para formato do banco antes de atualizar
+            $model->data = Yii::$app->util->converteDataSQL($model->data . ' 00:00:00', 'datetime');
+            if($model->save())
+                return 1;
+            else
+                return 2;
         }
 
-        return $this->render('update', [
+        $model->data = Yii::$app->util->converteData($model->data, 'date');
+        return $this->renderAjax('update', [
             'model' => $model,
         ]);
     }

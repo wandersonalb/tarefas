@@ -27,6 +27,7 @@ class Tarefas extends \yii\db\ActiveRecord
      */
     public function rules()
     {
+        // Regras para persistência do model Tarefas
         return [
             [['data', 'descricao', 'usuario'], 'required'],
             [['data'], 'safe'],
@@ -43,8 +44,8 @@ class Tarefas extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'data' => 'Data',
-            'descricao' => 'Descricao',
-            'usuario' => 'Usuario',
+            'descricao' => 'Descrição',
+            'usuario' => 'Usuário',
         ];
     }
 }

@@ -7,6 +7,7 @@ $config = [
     'id' => 'basic',
     'name' => 'Tarefas',
     'basePath' => dirname(__DIR__),
+    'language' => 'pt-BR',
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -44,6 +45,21 @@ $config = [
             ],
         ],
         'db' => $db,
+        'formatter' => [
+            'class' => 'yii\i18n\Formatter',
+            'dateFormat' => 'dd/MM/yyyy',
+            'datetimeFormat' => 'php:d/m/Y H:i:s',
+            'decimalSeparator' => ',',
+            'thousandSeparator' => '.',
+            'currencyCode' => 'R$',
+            'locale' => 'pt-BR',
+            'defaultTimeZone' => 'America/Sao_Paulo',
+            'nullDisplay' => '',
+                        'class' => 'yii\i18n\Formatter'
+        ],
+        'util' => [
+            'class' => 'app\components\Util',
+        ],
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,

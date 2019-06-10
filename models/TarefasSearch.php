@@ -5,6 +5,7 @@ namespace app\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Tarefas;
+use app\components\Util;
 
 /**
  * TarefasSearch represents the model behind the search form of `app\models\Tarefas`.
@@ -54,6 +55,10 @@ class TarefasSearch extends Tarefas
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
+        }
+
+        if($this->data != null){
+            $this->data = Util::converteDataSQL($this->data, 'date').' 00:00:00';
         }
 
         // grid filtering conditions
