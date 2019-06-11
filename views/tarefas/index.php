@@ -23,6 +23,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::button('Criar Tarefa', ['value' => Url::to('index.php?r=tarefas/create'), 'class' => 'btn btn-success modalButton']) ?>
     </p>
 
+    <!-- Pjax é o responsável por recarregar os dados na tabela via ajax -->
+    <?php Pjax::begin(['id' => 'tarefasGrid']) ?>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -55,19 +58,19 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'descricao:ntext',
             'usuario',
-
             [
+                // Personaliza os botões do action column para chamar o modal
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{view} {update} {delete}',
                 'buttons' => [
                     'view' => function ($url, $model) {
                         return Html::a(
                             '<span class="glyphicon glyphicon-eye-open"></span>',
-                            null,
+                            false,
                             [
-                                'title' => 'Visualizar Tarefa',
+                                'title' => Yii::t('yii', 'Visualizar Tarefa'),
                                 'class' => 'modalButton',
-                                'value' => Url::to(['tarefas/view', 'id' => $model->id])
+                                'value' => $url
                             ]
 
                         );
@@ -75,19 +78,29 @@ $this->params['breadcrumbs'][] = $this->title;
                     'update' => function ($url, $model) {
                         return Html::a(
                             '<span class="glyphicon glyphicon-pencil"></span>',
-                            null,
+                            false,
                             [
-                                'title' => 'Visualizar Tarefa',
+                                'title' => Yii::t('yii', 'Atualizar Tarefa'),
                                 'class' => 'modalButton',
-                                'value' => Url::to(['tarefas/update', 'id' => $model->id])
+                                'value' => $url
                             ]
 
                         );
                     },
+                    'delete' => function ($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', 
+                            false, [
+                            'title' => Yii::t('yii', 'Delete'),
+                            'class' => 'deleteTarefa',
+                            'delete-url' => $url
+                        ]);
+                    }
                 ],
             ]
         ],
     ]); ?>
+
+    <?php Pjax::end(); ?>
 
     <!-- Modal para criar/visualizar/editar tarefa -->
     <?php
@@ -99,4 +112,15 @@ $this->params['breadcrumbs'][] = $this->title;
     ?>
     <div class='modalContent'></div>
     <?php Modal::end(); ?>
+
 </div>
+
+<?php
+
+//Script utilizado apenas quando pjax recarrega dados no grid view. É necessário recarregar o script novamente
+$script = <<< JS
+    $(document).on('ready pjax:success', function() {
+        loadScripts();
+    });
+JS;
+$this->registerJS($script);

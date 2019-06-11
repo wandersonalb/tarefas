@@ -120,9 +120,10 @@ class TarefasController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        if($this->findModel($id)->delete())
+            return 1;
+        else
+            return 2;
     }
 
     /**

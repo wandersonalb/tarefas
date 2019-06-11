@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Tarefas */
 
-$this->title = $model->id;
+$this->title = 'Tarefa: '.$model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Tarefas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'data',
+            'data:date',
             'descricao:ntext',
             'usuario',
         ],
