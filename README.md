@@ -1,37 +1,81 @@
-DIRECTORY STRUCTURE
+SISTEMA DE TAREFAS
+
+(Projeto base - Yii @)
+
+ESTRUTURA DE DIRETÓRIOS
 -------------------
 
-      assets/             contains assets definition
-      commands/           contains console commands (controllers)
-      config/             contains application configurations
-      controllers/        contains Web controller classes
-      mail/               contains view files for e-mails
-      models/             contains model classes
-      runtime/            contains files generated during runtime
-      tests/              contains various tests for the basic application
-      vendor/             contains dependent 3rd-party packages
-      views/              contains view files for the Web application
-      web/                contains the entry script and Web resources
+      assets/             contém definições do assets
+      commands/           contém comandos do console (controllers)
+      components/         contém component class (Util)
+      config/             contém configurações da aplicação
+      controllers/        contém controllers
+      mail/               contém arquivos de visualização para e-mails
+      migrations/         contém migrations
+      models/             contém model classes
+      runtime/            contém arquivos gerados durante execução
+      tests/              contém testes
+      vendor/             contém pacotes de dependências
+      views/              contém arquivos de visualização
+      web/                contém scripts e web sources
 
 
-REQUIREMENTS
+REQUISITOS
 ------------
 
-The minimum requirement by this project template that your Web server supports PHP 5.4.0.
+O requisito mínimo para este modelo de projeto: servidor Web que suporte PHP 5.4.0.
 
-Installing Composer
-If you do not already have Composer installed, you may do so by following the instructions at getcomposer.org. On Linux and Mac OS X, you'll run the following commands:
+INSTALAÇÃO
+------------
 
+Instalando [Composer](http://getcomposer.org/)
+
+Siga as instruções em [getcomposer.org](http://getcomposer.org/doc/00-intro.md#installation-nix).
+
+OU: No linux:
+```
 curl -sS https://getcomposer.org/installer | php
 sudo mv composer.phar /usr/local/bin/composer
+```
+OU Windows:
+Download [Composer-Setup.exe](https://getcomposer.org/Composer-Setup.exe)
 
+Após instalar composer, na raiz do projeto execute:
 
-On Windows, you'll download and run Composer-Setup.exe.
-
+~~~
 composer install
+~~~
 
-config db
+Configure o banco de dados em config/db.php
 
-create database vazio
-
+Execute as migrations para criar as tabelas no banco de dados. (Crie o banco de dados, caso ainda não exista)
+~~~
 php yii migrate
+~~~
+
+Execute o servidor para testar a aplicação
+
+~~~
+php yii serve
+~~~
+
+INFORMAÇÕES EXTRAS
+------------
+
+# Caso seja linux #
+
+Ao clonar o projeto,
+
+```
+chmod -R 777 tarefas
+```
+
+```
+git config core.fileMode false
+```
+
+```
+chmod -R 777 tarefas
+```
+
+ps: faz com que ao alterar apenas as permissões do arquivo, o git não reconheça como uma alteração.
